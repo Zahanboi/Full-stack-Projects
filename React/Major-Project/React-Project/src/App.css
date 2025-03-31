@@ -1,0 +1,47 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+h1{
+  font-size: 2.5rem;
+  color: #201f1f;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.368), 0 0 10px rgba(255, 255, 255, 0.119), 0 0 15px rgba(255, 255, 255, 0.342);
+  background: rgba(255, 255, 255, 0.041);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+}
+
+.card {
+  padding: 2em;
+  padding-top: 0%;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.card2{
+  height: 425px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loadcontents {
+  0% { visibility: hidden;  }
+  100% {  visibility: visible; }
+}
+
+.header{
+  animation: loadcontents 1s ease-out 4s forwards, fadeIn 1.5s ease-out 4s  ;
+  visibility: hidden;
+}

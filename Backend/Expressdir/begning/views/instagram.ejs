@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pages</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Welcome to the ig handle of cats & dogs </h1>
+    <h2>This is the page of @ <%= data.name %></h2>
+    <button>Follow </button>
+    <button>Message <span style="font-size: 0px;"><%= data.name %></span> </button>
+    <br>
+    <br>
+    <hr>
+    <span><h5>Followers : <%= data.followers %>   |   Following : <%= data.following %></h5></span>
+
+    <h2>Posts:</h2>
+    <br>
+    <% for (let i = 0; i < data.posts.length; i++) { %>
+        <img src="<%= data.posts[i].image%>" alt="Post-<%= i+1 %>" style="height: 40vh; width: 50vh;">
+        <br>
+        <span>
+        <h3><%= data.posts[i].likes %> likes | | 
+        <%= data.posts[i].comments %> comments</h3>
+        </span>
+        <%}%>
+        <hr>
+        <br>    
+    <script src="/app.js"></script>
+</body>
+</html>

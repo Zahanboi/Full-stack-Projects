@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    font-family: Poppins;
+    font-size: 4vh;
+    color: #1E1E1E;
+    background-color: #CDCDCD;
+    background-image: url(images/Background.png);
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+.left{
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+@keyframes fade-in {
+    0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+    90% {
+        opacity: 0.43;
+        transform: translate3d(10rem, 21rem, 201rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(-10rem, 45rem, -201rem);
+    }
+}
+
+@keyframes fade-in1 {
+    0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+    90% {
+        opacity: 0.43;
+        transform: translate3d(-10rem, 21rem, 201rem);
+    }
+    100%{
+        opacity: 1;
+        transform: translate3d(10rem, 45rem, -201rem);
+    }
+}
+
+.title2 {
+    font-size: 4rem;
+    animation: fade-in auto linear both;
+    animation-timeline: scroll();
+    animation-range: 400px 1000px;
+}
+
+
+@keyframes go-down {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(45rem);
+    }
+
+}
+
+.title1{
+font-size: 4rem;
+animation: fade-in1 auto linear both ;
+animation-timeline: scroll() ;
+animation-range: 400px 1000px;
+}
+
+.title2{
+    font-size: 4rem;
+    padding: 20px; 
+    animation: fade-in auto linear both;
+    animation-timeline: scroll() ;
+    animation-range: 400px 1000px;
+    }
+
+#bg-img{
+    color: azure;
+    height: 190px;
+    width: 600px;
+    margin: 20px;
+    margin-right: 5px;
+    margin-top: 0px;
+    animation: go-down auto linear both;
+    animation-timeline: scroll() ;
+    animation-range: 400px 1000px;
+}
+
+.rock{
+    display: flex;
+    justify-content: space-between;
+}
+
+.rock img{
+    height: fit-content;
+}
+
+::-webkit-scrollbar {
+    width: 10px; /* width of the scrollbar */
+  }
+  
+  /* Style the scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background-color: #676565; /* color of the thumb */
+    border-radius: 5px; /* roundness of the thumb */
+  }
+  
+  /* Optional: Style the scrollbar track when hovering over it */
+  ::-webkit-scrollbar-track:hover {
+    background-color: #232323; /* color of the track on hover */
+  }  

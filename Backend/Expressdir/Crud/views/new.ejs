@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<style>
+    body {
+        font-family: 'Helvetica Neue', sans-serif;
+        background: linear-gradient(135deg, rgb(172, 251, 143), rgb(173, 141, 149));
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #fff;
+    }
+
+    .onlypost {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        max-width: 700px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .onlypost h1 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 2.5em;
+    }
+
+    .onlypost h2 {
+        color: #555;
+        margin-bottom: 25px;
+        font-size: 1.5em;
+    }
+
+    .onlypost h3 {
+        color: #666;
+        margin-bottom: 25px;
+        font-size: 1.2em;
+    }
+
+    a {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: #ff4081;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 25px;
+        transition: background-color 0.3s, transform 0.3s;
+        position: absolute;
+        top: 74%;
+    }
+
+    a:hover {
+        background-color: #e91e63;
+        transform: scale(1.05);
+    }
+</style>
+<body>
+    <div class = "onlypost">
+        <h1>Quora Post</h1>
+        <h2>Posted today</h2> <hr>
+        <h1>@<%= post.username%></h1> 
+        <h3><%= post.content%></h3>
+    </div>
+    <br>
+    <a href="http://localhost:8080/posts" style="margin: 0 auto">Go to main page</a>
+</body>
+    
+    
+</html>

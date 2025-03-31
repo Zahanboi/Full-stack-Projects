@@ -1,0 +1,479 @@
+.ques1 {
+width: 400px;
+font-family: 'league spartan';
+color: #ffa511 ;
+text-align: center;
+font-size: 55px;
+font-weight: 900;
+letter-spacing: 2px;
+line-height: 1.5;
+text-decoration: teal double underline;
+text-transform: uppercase;
+}
+
+
+
+.ques2 {
+background-color: wheat;
+text-align: center;
+font-family: Georgia;
+line-height: 30px;
+   
+}
+
+.extra{
+text-align: left;
+background-color: azure;
+}
+
+/* p{
+color: #800020;
+font-weight: 900;
+} */
+
+a{
+    color: rgb(34,139,3);
+    text-decoration: none;
+
+}
+
+.ques3 {
+    font-family: 'Courier New';
+
+}
+
+button{
+    background-color: aqua;
+}
+
+#searchbtn {
+    background-color: black;
+    color: white
+}
+
+.maintopic{
+    color: #0000ff;
+}
+
+/* *{
+    text-align: center;
+} */
+
+/* h1 ,h3 ,h5 {
+    font-style: Georgia;
+} */
+
+button:hover{
+    color: blue;
+    background-color: yellow;
+    
+    transition-timing-function: ease-in-out ;
+}
+/* 
+p:nth-of-type(2n-1){
+color: yellow;
+}
+
+h1::first-letter{
+    color: red;
+} */
+/* 
+h1{
+    display: inline;
+    height: 20px;
+    width: 7px;
+    padding-top: 25px;
+    padding-bottom: 35px;
+    margin: 45px;
+
+} */
+
+input[type="checkbox"]:checked + label{
+    color: darkgreen;
+}
+
+.CSS3{
+    height: 200px;
+    width: 70px;
+    border: 2px solid black;
+    border-style: inset;
+    align-items: center;
+    
+}
+
+.innerdiv{
+    height:50px;
+    width: 50px;
+    border: 2px solid black;
+    
+    margin: 10px;
+    border-radius: 50%;
+
+}
+
+.exp {
+    height: 150px;
+    width: 300px;
+    background-color: rgba(34, 102, 169, 0.665);
+    opacity: 1;
+    border: 5px dotted #871e1ef1;
+    margin-top: 20px;
+    margin-right: 1em;
+    margin-bottom: 40px;
+    margin-left: 2em;
+    padding: 1em;
+    transform: skew(120deg) ;
+    
+}
+
+.exp:hover{
+    margin: 0 auto;
+    transition: 2s ease-in 0.2s;
+}
+
+.threedivs{
+    display: inline-block;
+    
+    height: 100px;
+    width: 100px;
+    background-color: pink;
+    border: 2px solid hsl(0, 0%, 0%);
+    border-radius: 50%;
+} 
+
+li{
+    display: inline;
+}
+
+ #card {
+    height: 350px;
+    width: 200px;
+    border: 3px solid black;
+    color: rgb(7, 8, 8);
+    padding: 0px;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 0 auto;
+    transition: 0.4s;
+    border-radius: 5px;
+}
+/* ##** imp imp content will get seprated from image if height is less because first css tends to fit entire image in height as image height is fixed */
+
+#card:hover {
+    box-shadow: 1px 5px 10px black;
+}
+img{
+    width: 100%;
+}
+
+.pos{
+    background-color: #ffa511;
+    height: 100px;
+    width: 100px;
+    /* position: fixed; */
+    /* bottom: 60px; */
+    /* top: 1px; */
+
+}
+
+.smiley{
+    height: 300px;
+    width: 300px;
+    border-radius: 50% ;
+    background-color: orange;
+    margin: 0 auto;
+}
+
+.eyes{
+    /* display: inline-block; */
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #000;
+    margin: 0 auto;
+    position: relative;
+    top: 45px;
+    right: 55px;
+}
+
+.eyes1{
+    /* display: inline-block; */
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #000;
+    margin: 0 auto;
+    position: relative;
+    top: 75px;
+    left: 55px;
+}
+
+.mouth{
+    background-color: red;
+    height: 60px;
+    width: 180px;
+    position: relative;
+    top: 110px;
+    left: 55px;
+    border-bottom-left-radius:50px ;
+    border-bottom-right-radius: 50px;
+}
+
+
+/* Qs1. Add a 2s transition on box1 for width changes.
+       It should have 'ease-in' speed curve & 0.5s delay  */
+
+       #box1 {
+        width: 100px;
+        height: 100px;
+        background: green;
+      }
+      
+      #box1:hover {
+        width: 600px;
+        transition: 2s ease-in-out 0.5s;
+      }
+      
+      /* Qs2. Using transform, move box2 200px to the right  & 
+              200px down. Also rotate it 90deg.*/
+      
+      #box2 {
+        width: 100px;
+        height: 100px;
+        background: red;
+        transform: translate(200px,200px) rotate(45deg);
+       
+      }
+      
+      /* Qs3. Using transform, skew box3 20deg along the x axis.*/
+      
+      #box3 {
+        width: 100px;
+        height: 100px;
+        background: lightblue;
+        transform: skewX(20deg);
+      }
+      
+      /* Qs4. Set a 2px horizontal & 2px vertical, green shadow 
+              for box4, with a 5px blur radius.*/
+      
+      #box4 {
+        width: 100px;
+        height: 100px;
+        background: lightgreen;
+        box-shadow: 2px 2px 5px green;
+      }
+      
+      /* Qs5. Set Your picture or any picture as the background of the div
+              "myPic". Also, set transparency of this div to 50%. */
+      
+      #myPic {
+        width: 200px;
+        height: 200px;
+        background: pink;
+        background-image: url(MY\ IMG.png);
+        background-size: cover;
+        background-color: rgba(red, green, blue, alpha)
+      }
+      
+      .flex{
+        height: 400px;
+        width: 400px;
+        border: 2px solid aqua;
+        border-radius: 4px ;
+        display: flex;
+        flex-direction: row;
+        flex-wrap:  wrap;
+        justify-content: space-around;
+        align-content: space-around;
+        /* align-items: center; */
+          }
+
+      .flex div{
+        height: 100px;
+        width: 100px;
+        background-color: rgba(0, 0, 0, 0.44);
+        border: 2px solid black;
+        border-radius: 4px ;
+        font-size: 50px;
+        text-align: center;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        
+      }    
+
+      .flex2{
+        height: 50px;
+        width: 900px;
+        background-color: rgb(233, 152, 179);
+        border: 2px solid green;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-content: center;
+      }
+      
+      .flex2 div{
+        height: 50px;
+        width: 80px;
+        font-size: 24px;
+        line-height: 40px;
+      }
+
+      .grid{
+        background-color: #ffa511;
+        height: 400px;
+        width: 400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-rows: auto auto auto auto;  
+        grid-template-columns: repeat(4,1fr);
+        row-gap: 10px;
+        column-gap: 26.5px;
+        align-items: center;
+        position: relative;
+      }
+
+      .grid div{
+        height: 50px;
+        width: 80px;
+        font-size: 24px;
+        line-height: 40px;
+        background-color: aqua; 
+        z-index: 1/2 ;
+       
+      }
+
+      .grid div:hover{
+        animation-name: firstani;
+        animation-duration: 3s;
+        animation-delay: 0.3s;
+        animation-timing-function: ease-in;
+        animation-iteration-count: infinite;
+        animation-direction: alternate ;
+        /* animation: spin; */
+      }
+
+      @keyframes firstani{
+        from{
+            height: 50px;
+        }
+        to{
+            height: 120px;
+        }
+      }
+
+      @media ( max-width: 400px ){
+        div{
+          background-color: #0000ff;
+        }
+      }
+
+      .loader{
+      border: 16px solid #f3f3f3;
+      border-top: 16px solid goldenrod;
+      border-radius:50%;
+      width:120px;
+      height:120px;
+      animation: spin 3s ease-in-out 0s infinite;
+    }
+
+    @keyframes spin{
+     0%{
+      transform: rotate(0deg);
+     }
+     
+     100%{
+      transform: rotate(360deg); 
+    }
+    }
+
+    .grid2{
+      height: 70vh;
+      display: grid;
+      margin: 0 auto;
+      padding: 0;
+      grid-template-columns: repeat(12,1fr);
+      grid-template-rows: repeat(12,1fr);
+      /* background-color: #eab1f4; */
+      
+      row-gap: 10px;
+      column-gap: 10px;
+    }
+    .header{
+      display: grid;
+      grid-column: 1/span 12;
+      background-color: #eab1f4;
+    }
+    .sidebar{
+      grid-row: 2/span 10;
+      grid-column: 1/span 3;
+      background-color: #eab1f4;
+    }
+    .navigation{
+      /* grid-row: 2/2; */
+      grid-column: 4/span 6;
+      background-color: #eab1f4;
+    }
+    .ads{
+      grid-row: 2/span 10;
+      grid-column: 10/span 3;
+      background-color: #eab1f4;
+    }
+    .main{
+      grid-row: 3/span 9;
+      grid-column: 4/span 6;
+      background-color: #eab1f4;
+    }
+    .footer{
+      grid-column: 1/span 12;
+      /* grid-row: 12/span 12; */
+      background-color: #eab1f4;
+    }
+
+    @media(max-width:720px)
+    {
+      /* .grid2{
+        height: 70vh;
+        display: grid;
+        margin: 0 auto;
+        padding: 0;
+        grid-template-columns: repeat(12,1fr);
+        grid-template-rows: repeat(12,1fr);
+        row-gap: 10px;
+        column-gap: 10px; 
+        }*/
+      
+      .grid2 div{
+        background-color: #eab1f4;
+      } */
+
+      .header{
+        grid-column:1/span 12;
+      }
+
+    .navigation{
+      grid-column:1/ span 12;
+      grid-row: 2;
+    }
+    
+    .sidebar{
+      grid-column: 1/ span 3;
+      grid-row:3/ span 9;
+    }
+    
+    .main{
+      grid-column: 4/span 9;
+      grid-row: 3/ span 9;
+    }
+    
+    .ads{
+      grid-column:1/span 3;
+      grid-row:12;
+    }
+    .footer{
+      grid-column:4/span 9;
+      grid-row:12;
+    }
+  
+    }

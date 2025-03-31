@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+    <link rel="stylesheet" href="./asses/logo.png">
+    <!-- <link rel="stylesheet" href="/styles.css"> -->
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .post {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px auto;
+        width: 80%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .post:hover {
+        transform: scale(1.02);
+    }
+
+    .post h3 {
+        margin: 0;
+        color: #333;
+        font-family: 'Georgia', serif;
+    }
+
+    .post p {
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .post a {
+        display: inline-block;
+        margin-right: 10px;
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .post a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+    }
+
+    a[href="http://localhost:8080/posts/new"] {
+        display: block;
+        text-align: center;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        width: 200px;
+        transition: background-color 0.2s;
+    }
+
+    a[href="http://localhost:8080/posts/new"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+<body>
+    <h1 style="color: rgb(137, 3, 3);">Quora Posts</h1>
+    <br>
+    <% for(post of posts){ %>
+        <div class="post">
+            <h3>@ <%= post.username %></h3>
+            <p style="overflow-wrap: break-word;"><%= post.content %></p> <!--good property overflow wrap -->
+            <a href="http://localhost:8080/posts/<%=post.id%>">See post</a>
+            <a href="http://localhost:8080/posts/<%=post.id%>/edit">Update post</a>
+            <a href="http://localhost:8080/posts/<%=post.id%>/delete">Delete post</a>
+        </div>
+    <% } %>
+    <br>
+    <br>
+    <hr>
+    <br>
+
+    <a href="http://localhost:8080/posts/new">Create a new post!</a>
+    
+</body>
+</html>

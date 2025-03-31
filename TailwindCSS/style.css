@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.testsvg{
+    background: linear-gradient(to left, #fcfcfc, #6d5151);
+}
