@@ -1,4 +1,4 @@
-// const person = "drishti";
+// const person = "";
 
 // let guess = prompt("Guess my favourite person or write 'i quit'");
 
