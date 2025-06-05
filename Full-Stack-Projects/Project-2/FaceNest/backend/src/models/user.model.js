@@ -1,15 +1,15 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema(
     {
        name: {type: String, required: true},
        userName: {type: String, required: true, unique: true},
        password: { type: String , required: true },
-       token: { type: String, required: true }
+       token: { type: String } //set/or to be used after login so not required true at regis
     }
 
 )
 
-const User = mongoose.model("User", meetingSchema);
+const User = mongoose.model("User", userSchema);
 
 export { User };
