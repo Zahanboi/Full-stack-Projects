@@ -4,7 +4,7 @@ import DisplayCard from "./DisplayCard.jsx";
 
 export default function API({ city }) {
   let URL = "https://api.openweathermap.org/data/2.5/weather?";
-  let API_KEY = "5f379b3009bb953135e022dbeab29120";
+  let API_KEY = "process.env.API_KEY";
 
   let [weatherInfo, setWeatherInfo] = useState({});
   let Response = async () => {
