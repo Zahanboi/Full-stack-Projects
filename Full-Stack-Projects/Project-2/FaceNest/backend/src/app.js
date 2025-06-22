@@ -1,6 +1,7 @@
 import express from "express";
 import { createServer } from "node:http";
-
+import dotenv from 'dotenv';
+dotenv.config();
 import { connectSocket } from "./Controllers/socketManager.js";
 import cors from "cors";
 import userRoutes from "./routes/users.routes.js";
@@ -20,7 +21,7 @@ app.use("/api/v1/users", userRoutes);
 const startServer = async () => {
 
     app.set("mongo_user");
-    const connectionDb = await mongoose.connect("mongodb+srv://zahansharma123:NewPassword@cluster0.xfv3mlo.mongodb.net/");
+    const connectionDb = await mongoose.connect(process.env.MONGO_URL);
 
     console.log(`Connected to MongoDB ${connectionDb.connection.host}`);
     app.get("/", (req, res) => {
