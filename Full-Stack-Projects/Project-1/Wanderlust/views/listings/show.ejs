@@ -1,0 +1,23 @@
+<% layout("../Layouts/boilerPlate") -%>
+
+<body>
+  <div style="max-width: 600px; margin: 3rem auto; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); background-color: white;">
+    <h2 style="margin-bottom: 1rem;"><%= listings.title %></h2>
+    
+    <img src="<%= listings.image.url %>" alt="Listing Image" style="width: 100%; height: 250px; border-radius: 10px; margin-bottom: 1rem;">
+    
+    <p><strong>Description:</strong> <%= listings.description %></p>
+    <p><strong>Location:</strong> <%= listings.location %></p>
+    <p><strong>Country:</strong> <%= listings.country %></p>
+    <p><strong>Price:</strong> ₹ <%= listings.price.toLocaleString("en-IN") %></p>
+
+    <div style="margin-top: 2rem;">
+      <a href="/listings/<%= listings.id %>/edit" style="text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; background-color: #3b82f6; color: white; margin-right: 1rem;">Edit</a>
+      <a href="/listings" style="text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; background-color: #6b7280; color: white;">Back to All Listings</a>
+    </div>
+
+    <form action="/listings/<%= listings.id %>?_method=DELETE" method="POST" style="margin-top: 2rem;">
+      <button style="padding: 0.5rem 1rem; background-color: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer;">Delete</button>
+    </form>
+  </div>
+</body>
