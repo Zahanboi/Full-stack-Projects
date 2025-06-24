@@ -4,7 +4,7 @@
     <div class="row flex-row justify-content-center flex wrap ">
         <% for(let Listing of allListings){ %>
       <div class="card p-0 border-0 m-3 mb-4 flex-wrap" style="width: 18rem;">
-            <img src="<%= Listing.image.url %>" class="card-img-top" style="height: 20rem;" alt="<%= Listing.image.filename %>">
+            <img src="<%= Listing.image.url %>" class="card-img-top" style="height: 20rem; border-radius: 10px;" alt="<%= Listing.image.filename %>">
         <div class="card-body">
             <h4 class="card-title">
             <%= Listing.title %> <br>

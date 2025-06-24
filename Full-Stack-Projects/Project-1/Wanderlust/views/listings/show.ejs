@@ -20,4 +20,43 @@
       <button style="padding: 0.5rem 1rem; background-color: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer;">Delete</button>
     </form>
   </div>
+  <hr>
+  <p><b>Leave a Review</b></p>
+  <form action="/listings/<%= listings.id %>/reviews" method="POST" novalidate class="needs-validation" style="max-width: 600px; margin: 2rem auto; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); background-color: white;">
+    <div class="mb-3 mt-3">
+      <label for="rating" class="form-label">Rating</label>
+      <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" >
+
+    </div>
+    <div class="mb-3 mt-3">
+      <label for="comment" class="form-label">Comments</label>
+      <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+       <div class="invalid-feedback">
+        Please enter your comments.
+    </div>
+    </div>
+    <button class="btn btn-outline-dark">Submit</button>
+  </form>
+
+  <hr>
+
+  <p><b>All Reviews</b></p>
+  <ul class="list-unstyled mx-auto" style="max-width: 600px; margin: 2rem auto;">
+    <% for(review of listings.reviews) { %>
+      <li class="mb-4">
+        <div class="card shadow-sm border rounded-3 bg-light">
+          <div class="card-body">
+            <h5 class="card-title mb-2 text-primary fw-semibold">userboi</h5>
+            <p class="card-text mb-2 text-secondary"><%= review.comment %></p>
+            <p class="card-text text-warning fw-medium">
+              <%= review.rating %> <span class="text-warning">&#9733;</span>
+            </p>
+            <form action="/listings/<%= listings.id %>/reviews/<%= review.id %>?_method=DELETE" method="POST"> <!-- reviewid pe direct because need that id to delete it -->
+              <button class="btn btn-outline-danger btn-sm">Delete</button>
+            </form>
+          </div>
+        </div>
+      </li>
+    <% } %>
+  </ul>
 </body>
