@@ -35,4 +35,11 @@
     
 }
 
-
+.flash-message {
+    text-align: center;
+    margin: 15px 0 15px 0;
+    background-color: #67d9ff;
+    color: #721c24;
+    border-radius: 5px;
+    z-index: 1000;
+}
