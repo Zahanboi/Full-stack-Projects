@@ -17,3 +17,17 @@
     }, false)
   })
 })()
+
+const togglePassword = document.querySelector("#togglePassword");
+    const password = document.querySelector("#password");
+    const eyeIcon = document.querySelector("#eyeIcon");
+
+    togglePassword.addEventListener("click", function () {
+        // Toggle the type attribute
+        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type); // type = text or password setting
+
+        // Toggle the eye icon
+        eyeIcon.classList.toggle("bi-eye"); //write
+        eyeIcon.classList.toggle("bi-eye-slash");
+    });
