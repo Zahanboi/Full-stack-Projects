@@ -6,11 +6,13 @@
     
     <img src="<%= listings.image.url %>" alt="Listing Image" style="width: 100%; height: 250px; border-radius: 10px; margin-bottom: 1rem;">
     
+    <p><strong>Owned By:</strong> @<%= listings.owner.username %></p>
     <p><strong>Description:</strong> <%= listings.description %></p>
     <p><strong>Location:</strong> <%= listings.location %></p>
     <p><strong>Country:</strong> <%= listings.country %></p>
     <p><strong>Price:</strong> ₹ <%= listings.price.toLocaleString("en-IN") %></p>
 
+    <% if(currUser && listings.owner._id.equals(currUser._id)) { %>
     <div style="margin-top: 2rem;">
       <a href="/listings/<%= listings.id %>/edit" style="text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; background-color: #3b82f6; color: white; margin-right: 1rem;">Edit</a>
       <a href="/listings" style="text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; background-color: #6b7280; color: white;">Back to All Listings</a>
@@ -20,16 +22,36 @@
       <button style="padding: 0.5rem 1rem; background-color: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer;">Delete</button>
     </form>
   </div>
+    <% } else { %>
+      <div style="margin-top: 2rem;">
+        <a href="/listings" style="text-decoration: none; padding: 0.5rem 1rem; border-radius: 8px; background-color: #6b7280; color: white;">Back to All Listings</a>
+      </div>
+    <% } %>
   <hr>
-  <p><b>Leave a Review</b></p>
+  <% if(currUser) { %>
+  
   <form action="/listings/<%= listings.id %>/reviews" method="POST" novalidate class="needs-validation" style="max-width: 600px; margin: 2rem auto; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); background-color: white;">
+    <p class="form-control"><b>Leave a Review</b></p>
+      <div class="mb-3 mt-3">  
+      <fieldset class="starability-slot">
+        <legend>Rating:</legend>
+        <input type="radio" id="first-rate1" name="review[rating]" value="1" required />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+      </fieldset>
+      <div class="invalid-feedback">
+        Please choose a rating.
+      </div>
+      </div>
     <div class="mb-3 mt-3">
-      <label for="rating" class="form-label">Rating</label>
-      <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" >
-
-    </div>
-    <div class="mb-3 mt-3">
-      <label for="comment" class="form-label">Comments</label>
+      <label for="comment" class="form-label" title="Tell your review of the Listing">Comments</label>
       <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
        <div class="invalid-feedback">
         Please enter your comments.
@@ -37,7 +59,16 @@
     </div>
     <button class="btn btn-outline-dark">Submit</button>
   </form>
-
+  <% } else { %>
+    <div class="alert alert-warning text-center" role="alert">
+      <span>
+      <form action="/listings/<%= listings.id %>/reviews" method="GET">
+        <strong>Please log in to leave a review!</strong>
+        <button class="btn btn-primary mx-3">Log In</button>
+      </form>
+      </span>
+    </div>
+  <% } %>
   <hr>
 
   <p><b>All Reviews</b></p>
@@ -46,14 +77,16 @@
       <li class="mb-4">
         <div class="card shadow-sm border rounded-3 bg-light">
           <div class="card-body">
-            <h5 class="card-title mb-2 text-primary fw-semibold">userboi</h5>
+            <h5 class="card-title mb-2 text-primary fw-semibold"><%= review.author.username %></h5>
             <p class="card-text mb-2 text-secondary"><%= review.comment %></p>
-            <p class="card-text text-warning fw-medium">
-              <%= review.rating %> <span class="text-warning">&#9733;</span>
+            <p class="starability-result" data-rating="<%= review.rating %>"">
+              Rated: 3 stars
             </p>
+            <% if(currUser && review.author._id.equals(currUser._id)) { %> <!-- use currUser &&  because before logging in curruser is undefined -->
             <form action="/listings/<%= listings.id %>/reviews/<%= review.id %>?_method=DELETE" method="POST"> <!-- reviewid pe direct because need that id to delete it -->
-              <button class="btn btn-outline-danger btn-sm">Delete</button>
+              <button class="btn btn-outline-danger btn-sm">Delete Your Review</button>
             </form>
+          <% } %>
           </div>
         </div>
       </li>

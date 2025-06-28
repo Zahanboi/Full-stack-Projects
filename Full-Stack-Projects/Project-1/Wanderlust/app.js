@@ -60,7 +60,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
-  res.locals.userauth = req.isAuthenticated(); // to check if user is authenticated or not
+  res.locals.currUser = req.user; // to check if user is authenticated or not
   next();
 });
 

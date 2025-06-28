@@ -26,10 +26,14 @@ image: {
   price: Number,
   location: String,
   country: String,
-  reviews: [{
+  reviews: [{ //array because can be multiple reviews for a single listing
     type: Schema.Types.ObjectId,
     ref: "Review"
-  }]
+  }],
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 listingSchema.post("findOneAndDelete", async (listing) =>{
