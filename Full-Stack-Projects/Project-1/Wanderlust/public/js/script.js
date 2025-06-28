@@ -31,3 +31,24 @@ const togglePassword = document.querySelector("#togglePassword");
         eyeIcon.classList.toggle("bi-eye"); //write
         eyeIcon.classList.toggle("bi-eye-slash");
     });
+
+
+
+  const imageInput = document.getElementById("listingImagefornew");
+  const imageFeedback = document.getElementById("imageFeedbackfornew");
+
+  imageInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+      const validTypes = ["image/jpeg"];
+      if (!validTypes.includes(file.type)) {
+        this.classList.add("is-invalid");
+        imageFeedback.style.display = "block";
+        this.value = ""; // reset the input
+      } else {
+        this.classList.remove("is-invalid");
+        imageFeedback.style.display = "none";
+      }
+    }
+  });
+

@@ -4,7 +4,7 @@
   <div class="container mt-5 mb-4" id="edit-listing-container">
     <h2 class="text-center mb-4" id="edit-listing-title">Edit Listing</h2>
 
-    <form action="/listings/<%= listing.id %>?_method=PUT" method="POST" id="edit-listing-form" novalidate class="shadow p-4 bg-white rounded needs-validation">
+    <form action="/listings/<%= listing.id %>?_method=PUT" method="POST" id="edit-listing-form" novalidate enctype="multipart/form-data" class="shadow p-4 bg-white rounded needs-validation">
       <div class="mb-3">
         <label for="editTitle" class="form-label">Title</label>
         <input type="text" class="form-control" id="editTitle" name="listing[title]" value="<%= listing.title %>" required>
@@ -20,17 +20,20 @@
       Looks good!
     </div>
       </div>
-
+      <div>
+        <p><b>Original Image</b></p>
+      <img src="<%= imageOriginalURL %>" alt="">
+      </div>
       <div class="mb-3">
-        <label for="editImage" class="form-label">Image Link</label>
+          
+        <label for="listingImagefornew" class="form-label">Upload Image</label>
         <input 
-          type="url" 
+          type="file" 
           class="form-control" 
-          id="editImage" 
+          id="listingImagefornew" 
           name="listing[image][url]" 
           value="<%= listing.image.url %>" 
-          required 
-          pattern="https?://.+"
+          accept=".jpg,image/jpeg,image/png"
           title="Please enter a valid URL starting with http:// or https://"
         >
          <div class="invalid-feedback">
