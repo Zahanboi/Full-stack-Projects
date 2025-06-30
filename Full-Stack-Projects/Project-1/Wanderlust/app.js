@@ -38,14 +38,14 @@ app.use(express.static(path.join(__dirname, "public")));
 const store =  MongoStore.create({
   mongoUrl: dbURL,
   crypto: {
-    secret: 'hiikey',
+    secret: process.env.SESSION_SECRET,
   },
   touchAfter: 24 * 3600,
   // ttl: 3 * 24 * 60 * 60 // expires after 3 days
 })
 const sessionOptions = {
   store: store, //or just write store,
-  secret: "hiikey",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
