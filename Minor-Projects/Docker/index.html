@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Form</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8fb;
+            margin: 0;
+            padding: 0;
+        }
+        form {
+            background: #fff;
+            max-width: 350px;
+            margin: 60px auto;
+            padding: 32px 28px 24px 28px;
+            border-radius: 10px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+        }
+        input[type="text"], input[type="email"] {
+            padding: 10px 12px;
+            border: 1px solid #cfd8dc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus {
+            border-color: #1976d2;
+            outline: none;
+        }
+        button[type="submit"] {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: #1565c0;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+    <h1>Add User</h1>
+    <form id="addUserForm" action="/adduser" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="username" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="Email" required>
+
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            setTimeout(() => {
+                this.reset();
+            }, 100);
+        });
+    </script>
+
+    <br><hr><br>
+    <h2>Get Users</h2>
+    <form action="/getusers" method="GET">
+        <button type="submit">Get Users</button>
+    </form>
+</body>
+</html>

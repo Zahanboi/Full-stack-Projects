@@ -1,0 +1,15 @@
+<% if(success && success.length){ %>
+<div class="alert alert-success alert-dismissible fade show col-6 offset-3 flash-message" role="alert">
+            <%= success %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<%  } %> 
+
+<!-- dismissible alert of bootstrap use if cond as a empty array is returned by req.flash -->
+
+<% if(error && error.length){ %>
+<div class="alert alert-danger alert-dismissible fade show col-6 offset-3 flash-message" role="alert">
+            <%= error %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<%  } %> 
