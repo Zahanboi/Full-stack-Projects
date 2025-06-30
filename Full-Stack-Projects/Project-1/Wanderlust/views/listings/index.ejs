@@ -8,9 +8,11 @@
         <div class="card-body">
             <h4 class="card-title">
             <%= Listing.title %> <br>
-             &#8377;<%=Listing.price.toLocaleString("en-IN")%> / night
+             &#8377;<%=Listing.price.toLocaleString("en-IN")%> 
            </h4>
-                <p class="card-text"><%= Listing.description %></p>
+                <p class="card-text" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                  <%= Listing.description %>
+                </p>
                 <a href="/listings/<%=Listing.id%>" class="btn btn-primary">Go to Listing</a>
         </div>
       </div>
