@@ -9,12 +9,13 @@ const listingRoute = require("./routes/listingRoutes.js");
 const reviewRoute = require("./routes/reviewRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const dbURL = process.env.MONGO_DB_URL;
 main()
 .then((res)=>{
     console.log(res);
@@ -26,7 +27,7 @@ app.use(methodOverride("_method"));
 
 app.engine("ejs", ejsMate);
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbURL);
 }
 
 app.use(express.urlencoded({ extended: true }));
@@ -34,7 +35,16 @@ app.set("view engine" , "ejs");
 app.set("views" , path.join(__dirname , "views/listings"));
 app.use(express.static(path.join(__dirname, "public")));
 
+const store =  MongoStore.create({
+  mongoUrl: dbURL,
+  crypto: {
+    secret: 'hiikey',
+  },
+  touchAfter: 24 * 3600,
+  // ttl: 3 * 24 * 60 * 60 // expires after 3 days
+})
 const sessionOptions = {
+  store: store, //or just write store,
   secret: "hiikey",
   resave: false,
   saveUninitialized: true,
@@ -69,15 +79,11 @@ app.use("/listings/:id/reviews", reviewRoute); //keep routes after middleware so
 app.use("/", userRoutes);
 
 app.get("/" , ((req , res) => {
-  
-  
-res.send("Hello World");
-}));
-
-app.get("/home" , ((req , res) =>{
 res.render("home.ejs");
 console.log(req.user);
 }));
+
+
 
 // app.get("/testlisting", async (req, res) => {
 //   let sampleListing = new Listing({
@@ -105,7 +111,7 @@ app.all("*", (req, res) => {
 app.use((err, req, res, next) => {
   let {statusCode = 500 , message} = err
   res.status(statusCode).render("../error.ejs", {message});
-  console.log(message);
+  console.log(err);
 });
 
 app.listen(8080, () => {

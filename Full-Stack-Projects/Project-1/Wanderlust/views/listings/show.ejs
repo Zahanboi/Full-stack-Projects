@@ -1,9 +1,10 @@
 <% layout("../Layouts/boilerPlate") -%>
 
 <body>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%=process.env.API_KEY%>&callback=console.debug&libraries=maps,marker&v=beta&loading=async" async></script>
+
   <div style="max-width: 600px; margin: 3rem auto; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); background-color: white;">
     <h2 style="margin-bottom: 1rem;"><%= listings.title %></h2>
-    
     <img src="<%= listings.image.url %>" alt="Listing Image" style="width: 100%; height: 250px; border-radius: 10px; margin-bottom: 1rem;">
     
     <p><strong>Owned By:</strong> @<%= listings.owner.username %></p>
@@ -55,7 +56,7 @@
       <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
        <div class="invalid-feedback">
         Please enter your comments.
-    </div>
+       </div>
     </div>
     <button class="btn btn-outline-dark">Submit</button>
   </form>
@@ -92,4 +93,19 @@
       </li>
     <% } %>
   </ul>
+</div>
+
+<div class="mapheader" style="margin: 2rem auto 1rem auto; max-width: 600px; text-align: center;">
+  <h5 style="font-weight: bold; color: #000000; letter-spacing: 0.5px; margin-bottom: 0;">
+    Listing Approximate Location:
+  </h5>
+</div>
+
+  <div class="maps mb-5 border-dark ">
+   
+  <gmp-map center="<%= listings.geometry.coordinates[1] %>,<%= listings.geometry.coordinates[0] %>" zoom="13" map-id= <%=`${process.env.MAP_STYLE}`%>>
+    <gmp-advanced-marker position="<%= listings.geometry.coordinates[1] %>,<%= listings.geometry.coordinates[0] %>" title="My location"></gmp-advanced-marker>
+  </gmp-map>
+  </div>
+  
 </body>

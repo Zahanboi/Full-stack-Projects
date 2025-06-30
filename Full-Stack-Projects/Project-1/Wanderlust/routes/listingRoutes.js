@@ -7,7 +7,6 @@ const multer  = require('multer')
 const {storage} = require("../utils/cloudConfig.js")
 const upload = multer({ storage })
 
-
 router.route("/")
 .get(wrapAsync(listingRoutes.allListings))
 .post(isLoggedIn, upload.single("listing[image]"), validateSchema, wrapAsync(listingRoutes.createListing));// multer will parse the image and save to cloudinary after it's parsed then call validate schema to validate it

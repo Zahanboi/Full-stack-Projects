@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Review = require("./review.js")
+const Review = require("./review.js");
+const { number } = require("joi");
 const listingSchema = new Schema({
   title: {
     type: String,
@@ -32,7 +33,21 @@ image: {
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User"
+  },
+
+  geometry: {
+  type: {
+    type: String,
+    enum: ["Point"],
+    required: true
+  },
+  coordinates: {
+    type: [Number],
+    required: true
   }
+}
+
+
 });
 
 listingSchema.post("findOneAndDelete", async (listing) =>{
@@ -44,6 +59,8 @@ listingSchema.post("findOneAndDelete", async (listing) =>{
     });
   }
 });
+
+listingSchema.index({ geometry: "2dsphere" }); // This line enables geospatial queries
 
 const Listing = mongoose.model("Listing", listingSchema);
 module.exports = Listing;

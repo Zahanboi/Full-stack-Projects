@@ -1,4 +1,7 @@
 const Listing = require("../models/listing.js");
+const {Client} = require("@googlemaps/google-maps-services-js");
+const client = new Client({});
+
 
 module.exports.allListings = async (req, res) => {
   const allListings = await Listing.find({});
@@ -23,21 +26,39 @@ module.exports.getListing = async (req,res) => {
   }
   res.render("show.ejs" , {listings} );
 }
+module.exports.createListing = async (req, res) => {
+  const location = req.body.listing.location;
 
-module.exports.createListing = async (req, res) => { //check is logged in if req comes from hoppscptch
-  const newlisitng = req.body;
-  let url = req.file.path;
-  let filename = req.file.filename;
-  console.log(req.body.listing);
-  console.log(req.file.path);
-  console.log(req.body);
+  let response = await client.geocode({
+    params: {
+      address: location,
+      key: process.env.API_KEY,
+    },
+  });
+
+  if (response.data.status !== "OK" || response.data.results.length === 0) {
+    req.flash("error", "Invalid address — please enter a valid location.");
+    return res.redirect("/listings/new");
+  }
+
+  const { lat, lng } = response.data.results[0].geometry.location;
+  const { path: url, filename } = req.file;
+
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
-  newListing.image = {url, filename};
+  newListing.image = { url, filename };
+  newListing.geometry = {
+  type: "Point",
+  coordinates: [lng, lat]
+};
+
   await newListing.save();
-  req.flash("success", "New Listing Created Successfully!"); //flash message will be displayed for 3 seconds
+  console.log(newListing);
+  
+  req.flash("success", "New Listing Created Successfully!");
   res.redirect("/listings");
-}
+};
+
 
 module.exports.editListing = async (req, res) => {
   let {id} = req.params;
@@ -58,6 +79,21 @@ module.exports.editListing = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
+  const location = req.body.listing.location;
+
+  let response = await client.geocode({
+    params: {
+      address: location,
+      key: process.env.API_KEY,
+    },
+  });
+
+  if (response.data.status !== "OK" || response.data.results.length === 0) {
+    req.flash("error", "Invalid address — please enter a valid location.");
+    return res.redirect("/listings/new");
+  }
+
+  const { lat, lng } = response.data.results[0].geometry.location;
 
   const listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing }); //pass by deconstructing the req.body.listing object
   console.log(req.file);
@@ -65,8 +101,13 @@ module.exports.updateListing = async (req, res) => {
     let url = req.file.path;
     let filename = req.file.filename;
     listing.image = {url , filename};
-    await listing.save();
   }
+
+  listing.geometry = {
+    type: "Point",
+    coordinates: [lng, lat]
+    };
+    await listing.save();
 
   req.flash("success", "Listing Updated Successfully!");
   res.redirect(`/listings/${id}`);
