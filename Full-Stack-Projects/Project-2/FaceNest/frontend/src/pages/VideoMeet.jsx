@@ -241,95 +241,99 @@ export default function VideoMeet() {
 
     }
 
-    let connectToSocketServer = () => {
+   let connectToSocketServer = () => {
+        socketRef.current = io.connect(server_url, { secure: false })
 
-        socketRef.current = io.connect(server_url, {secure: false})//ref ke current me socket daaldo fir uspe socket func use kro
+        socketRef.current.on('signal', gotMessageFromServer)
 
-        socketRef.current.on("signal", gotMessageFromServer);
-
-        socketRef.current.on("connect", () => {
-            socketRef.current.emit("join-call", window.location.href)
+        socketRef.current.on('connect', () => {
+            socketRef.current.emit('join-call', window.location.href)
             socketIdRef.current = socketRef.current.id
 
-            socketRef.current.on("chat-message", addMessage)
+            socketRef.current.on('chat-message', addMessage)
 
-            socketRef.current.on("user-left", (id)=>{
-                setVideos((videos) => videos.filter((video) => video.socketId !== id)); //remove that video which id is == id
+            socketRef.current.on('user-left', (id) => {
+                setVideos((videos) => videos.filter((video) => video.socketId !== id))
             })
 
-            socketRef.current.on("user-joined", (id, clients) => {
+            socketRef.current.on('user-joined', (id, clients) => {
                 clients.forEach((socketListId) => {
-                    connections[socketListId] = new RTCPeerConnection(peerConfigConnections) //ice fullform, set up rtc connection
 
-                    connections[socketListId].onicecandidate = (event) => {//now via our stun servers we are creating a channel for socketid sharing to our signaling server which will send it to all the clients
-                        if(event.candidate != null){
-                            socketRef.current.emit("signal" , socketListId, JSON.stringify({ 'ice': event.candidate }))//explain
+                    connections[socketListId] = new RTCPeerConnection(peerConfigConnections)
+                    // Wait for their ice candidate       
+                    connections[socketListId].onicecandidate = function (event) {
+                        if (event.candidate != null) {
+                            socketRef.current.emit('signal', socketListId, JSON.stringify({ 'ice': event.candidate }))
                         }
                     }
 
-                    connections[socketListId].onaddStream = (event) => {//we are using localVideoRef this is why because a strem is channeled with video audio screen and it is being changed via a async type func setVideo Wagera so cant add a video via onaddstream to send it to every user so we are using localvideoref via a useref , we can also use use effect but here can't because this a function
-                        let videoExists = videoRef.current.find(video => video.socketId === socketListId);
-    
-                        if (videoExists) {
-                            setVideos(videos => {
-                                const updateVideos = videos.map(video => 
-                                    video.socketId === socketListId ? {...video, stream: event.stream} : video //give entire stream or just video if new user joins then add new stream or event stream but if another user then socketlistid wala then just give old video 
-                                )
-                                videoRef.current = updateVideos;
-                                return updateVideos;
-                            })
-                        }else{
+                    // Wait for their video stream
+                    connections[socketListId].onaddstream = (event) => {
+                        console.log("BEFORE:", videoRef.current);
+                        console.log("FINDING ID: ", socketListId);
 
+                        let videoExists = videoRef.current.find(video => video.socketId === socketListId);
+
+                        if (videoExists) {
+                            console.log("FOUND EXISTING");
+
+                            // Update the stream of the existing video
+                            setVideos(videos => {
+                                const updatedVideos = videos.map(video =>
+                                    video.socketId === socketListId ? { ...video, stream: event.stream } : video
+                                );
+                                videoRef.current = updatedVideos;
+                                return updatedVideos;
+                            });
+                        } else {
+                            // Create a new video
+                            console.log("CREATING NEW");
                             let newVideo = {
                                 socketId: socketListId,
                                 stream: event.stream,
                                 autoplay: true,
                                 playsinline: true
-                            }
+                            };
 
                             setVideos(videos => {
-                                const updatedVideos = [ ...videos, newVideo];// destructure and push into it method
+                                const updatedVideos = [...videos, newVideo];
                                 videoRef.current = updatedVideos;
                                 return updatedVideos;
-                            })
+                            });
+                        }
+                    };
 
 
-                        } 
-
-                    }
-
-                    if (window.localStream !== undefined && window.localStream !== null) { // window object is as such that you can access it anywhere like if u initialise window.example then can use it in console of browser
-                        connections[socketListId].addStream(window.localStream);
+                    // Add the local video stream
+                    if (window.localStream !== undefined && window.localStream !== null) {
+                        connections[socketListId].addStream(window.localStream)
                     } else {
-                        let blackSilence = ( ...args) => new MediaStream([black(...args), silence()])
-                        window.localStream = blackSilence();
-                        connections[socketListId].addStream(window.localStream);
+                        let blackSilence = (...args) => new MediaStream([black(...args), silence()])
+                        window.localStream = blackSilence()
+                        connections[socketListId].addStream(window.localStream)
                     }
-
-
                 })
 
                 if (id === socketIdRef.current) {
-                    for(let idnew in connections){
-                        if (idnew === socketIdRef.current) continue // if already present then no need to add 
-                        try {
-                            connections[idnew].addStream(window.localStream); // add khudki stream for everyone
-                        } catch (error) {}
+                    for (let id2 in connections) {
+                        if (id2 === socketIdRef.current) continue
 
-                        connections[idnew].createOffer().then((description) => {
-                            connections[idnew].setLocalDescription(description)
-                            .then(() => {
-                                socketRef.current.emit("signal", idnew, JSON.stringify({ "sdp": connections[idnew].localDescription})) //session description sdp handshake part connection establishing part
-                            })
-                            .catch(e => console.log(e))
+                        try {
+                            connections[id2].addStream(window.localStream)
+                        } catch (e) { }
+
+                        connections[id2].createOffer().then((description) => {
+                            connections[id2].setLocalDescription(description)
+                                .then(() => {
+                                    socketRef.current.emit('signal', id2, JSON.stringify({ 'sdp': connections[id2].localDescription }))
+                                })
+                                .catch(e => console.log(e))
                         })
                     }
                 }
-
             })
         })
     }
-
   return (
     // <div>VideoMeetComponent :- {window.location.href.toLowerCase()}</div>
    
