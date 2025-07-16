@@ -50,7 +50,7 @@ export default function VideoMeet() {
 
     const videoRef = useRef([]);
 
-    let [videos, setVideos] = useState(); //multiple videos k liye
+    let [videos, setVideos] = useState([]); //multiple videos k liye
 
     // if (isChrome() === false) {
         
@@ -116,7 +116,7 @@ export default function VideoMeet() {
                 connections[id].createOffer().then((description) => {
                     connections[id].setLocalDescription(description)
                     .then(() => {
-                        socketIdRef.current.emit("signal", id, JSON.stringify({ "sdp": connections[id].localDescription}))
+                        socketRef.current.emit("signal", id, JSON.stringify({ "sdp": connections[id].localDescription}))// should be socketref not socketidref
                     })
                     .catch((e) => console.log(e))
                 })
@@ -133,9 +133,9 @@ export default function VideoMeet() {
                 tracks.forEach(track => track.stop())
             } catch { (e) => console.log(e) }
 
-            // let blackSilence = (...args) => new MediaStream([black(...args), silence()])
-            // window.localStream = blackSilence()
-            // localVideoref.current.srcObject = window.localStream
+            let blackSilence = (...args) => new MediaStream([black(...args), silence()])
+            window.localStream = blackSilence()
+            localVideoRef.current.srcObject = window.localStream
 
             for (let id in connections) {
                 connections[id].addStream(window.localStream)
@@ -173,7 +173,7 @@ export default function VideoMeet() {
     let getUserMedia = () => {
         if ((video && videoAvailable) || (audio || audioAvailable)) {
             navigator.mediaDevices.getUserMedia({video: video, audio: audio})// here we check the true false condition from video audio not videoAvailable wagera because this is for inside meet part not connect page videoAvailable will be checked before
-            .then(getUserMediaSuccess())//this will mske sure via above video:video and audio:audio that if user mutes his audio then no audio and audio: false so only video goes through his to getUserMediaSuccess and that gives only video or audio
+            .then(getUserMediaSuccess)// do not call this function like () because already being called otherwise it will be called without stream argument , this will mske sure via above video:video and audio:audio that if user mutes his audio then no audio and audio: false so only video goes through his to getUserMediaSuccess and that gives only video or audio
             .then((stream) => { })
             .catch(err => console.log(err))
         }else{
@@ -217,14 +217,16 @@ export default function VideoMeet() {
             if (signal.sdp) {
                 connections[icmId].setRemoteDescription(new RTCSessionDescription(signal.sdp))
                 .then(() => {
-                    if (signal.sdp.type === "offer") {
+                    if (signal.sdp.type === 'offer') {
                         connections[icmId].createAnswer()
                         .then((description) => {
                             connections[icmId].setLocalDescription(description)
                             .then(() => {
-                                socketIdRef.current.emit("signal", icmId, JSON.stringify({"sdp": connections[icmId].localDescription}))
+                                socketRef.current.emit("signal", icmId, JSON.stringify({"sdp": connections[icmId].localDescription}))
                             }).catch(e => console.log(e))
                         }).catch(e => console.log(e))
+                    }else{
+                        console.log("type not equal to offer" , signal.sdp.type)
                     }
                 }).catch(e => console.log(e))
             }
@@ -248,9 +250,11 @@ export default function VideoMeet() {
         socketRef.current.on("connect", () => {
             socketRef.current.emit("join-call", window.location.href)
             socketIdRef.current = socketRef.current.id
+
             socketRef.current.on("chat-message", addMessage)
+
             socketRef.current.on("user-left", (id)=>{
-                setVideo((videos) => videos.filter((video.socketId !== id))); //remove that video which id is == id
+                setVideos((videos) => videos.filter((video) => video.socketId !== id)); //remove that video which id is == id
             })
 
             socketRef.current.on("user-joined", (id, clients) => {
@@ -267,7 +271,7 @@ export default function VideoMeet() {
                         let videoExists = videoRef.current.find(video => video.socketId === socketListId);
     
                         if (videoExists) {
-                            setVideo(videos => {
+                            setVideos(videos => {
                                 const updateVideos = videos.map(video => 
                                     video.socketId === socketListId ? {...video, stream: event.stream} : video //give entire stream or just video if new user joins then add new stream or event stream but if another user then socketlistid wala then just give old video 
                                 )
@@ -279,8 +283,8 @@ export default function VideoMeet() {
                             let newVideo = {
                                 socketId: socketListId,
                                 stream: event.stream,
-                                autoPlay: true,
-                                playsinLine: true
+                                autoplay: true,
+                                playsinline: true
                             }
 
                             setVideos(videos => {
@@ -290,14 +294,16 @@ export default function VideoMeet() {
                             })
 
 
-                        }
+                        } 
 
                     }
 
                     if (window.localStream !== undefined && window.localStream !== null) { // window object is as such that you can access it anywhere like if u initialise window.example then can use it in console of browser
                         connections[socketListId].addStream(window.localStream);
                     } else {
-                        let blackSilence = ( ...args) => MediaStream([black(...args), silence()])
+                        let blackSilence = ( ...args) => new MediaStream([black(...args), silence()])
+                        window.localStream = blackSilence();
+                        connections[socketListId].addStream(window.localStream);
                     }
 
 
@@ -332,15 +338,33 @@ export default function VideoMeet() {
 
             <div>
                 <h2>Enter into Lobby</h2>
-                
+                <h2>{video.socketId}</h2>
                 <TextField id="outlined-basic" value={username} label="Username" onChange={e => setUsername(e.target.value)} variant="outlined" />
                 <Button variant="contained" onClick={connect}> Connect </Button>
 
                 <div>
                     <video ref={localVideoRef} autoPlay muted></video>
+                    
                 </div>
 
-            </div> : <></>
+            </div> : <>
+            <video ref={localVideoRef} autoPlay muted></video> {/* use this otherwise after connect ref.current become empty null and give error */}
+            {videos.map((video) => (
+                <div key={video.socketId}>
+                    <h2>{video.socketId}</h2>
+
+                    <video 
+                    data-socket={video.socketId}
+                    ref= {ref => {
+                        if (ref && video.stream) {
+                            ref.srcObject = video.stream
+                        }
+                    }}
+                    autoPlay
+                    ></video>
+                </div>
+            ))}
+            </>
 
         }
     </div>
