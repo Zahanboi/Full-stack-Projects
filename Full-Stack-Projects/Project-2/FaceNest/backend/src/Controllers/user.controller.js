@@ -14,7 +14,7 @@ const login = async (req, res) => {
             return res.status(httpStatus.NOT_FOUND).json({message: "User not found"});
         }
 
-        let isPasswordValid = await bcrypt.compare(password, user.password);
+        let isPasswordValid = await bcrypt.compare(password, user.password);//await otherwise always true
 
         if (isPasswordValid){
             let token = crypto.randomBytes(20).toString("hex");

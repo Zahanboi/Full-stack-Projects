@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "node:http";
 import dotenv from 'dotenv';
 dotenv.config();
+import { Server } from "socket.io";
 import { connectSocket } from "./Controllers/socketManager.js";
 import cors from "cors";
 import userRoutes from "./routes/users.routes.js";
@@ -27,8 +28,8 @@ const startServer = async () => {
     app.get("/", (req, res) => {
         res.json({ message: "Welcome to FaceNest API" });
     });
-    server.listen(8000, () => {
-        console.log("Server is running on port 8000");
+    server.listen(8003, () => {
+        console.log("Server is running on port 8003");
     });
 
 }
