@@ -58,3 +58,86 @@
   height: 70vh;
   width: auto;
 }
+
+/* Make nav buttons accessible */
+.navlist button {
+
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.navlist button:hover {
+  color: #FFA94D;
+}
+
+/* Cta button styling */
+.cta-button {
+  display: inline-block;
+  background: #D97500;
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  transition: background 0.3s ease;
+}
+
+.cta-button:hover {
+  background: #b45f00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .landingMainContainer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .navlist {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .landingMainContainer img {
+    display: none;
+  }
+}
+
+button {
+  all: unset;
+  padding: 0.6rem 1.4rem;
+  background-color: #FF9839; /* orange by default */
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🖱️ Slightly darker on hover */
+button:hover {
+  background-color: #e27f2a;
+  transform: scale(1.03);
+}
+
+/* ✅ Active click state */
+button:active {
+  transform: scale(0.96);
+}
+
+/* ♿ Keyboard focus */
+button:focus-visible {
+  outline: 3px solid #ffa94d;
+  outline-offset: 3px;
+}

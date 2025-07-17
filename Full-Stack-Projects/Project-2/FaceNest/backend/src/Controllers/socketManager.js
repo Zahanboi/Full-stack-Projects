@@ -31,11 +31,12 @@ export const connectSocket = (server) => {
             io.to(elem).emit("user-joined", socket.id , connections[path]); // here we need to run a loop through a array containing socket ids but can use socket.join to avoid loop method
         }); 
 
-        if (messages[path] !== undefined ) { //emit prev messages if exist to newly joined user 
-            messages[path].forEach(elem => {
-            io.to(socket.id).emit("chat-message", messages[path][elem]['data']); // here we need to run a loop through a array containing socket ids but can use socket.join to avoid loop method
-        }); 
-        }
+        
+        // if (messages[path] !== undefined ) { //emit prev messages if exist to newly joined user 
+        //     messages[path].forEach(elem => {
+        //     io.to(socket.id).emit("chat-message", elem['data', elem['sender], elem[socket-id-sender]); // here we need to run a loop through a array containing socket ids but can use socket.join to avoid loop method
+        // }); 
+        // }
 
     })
 
