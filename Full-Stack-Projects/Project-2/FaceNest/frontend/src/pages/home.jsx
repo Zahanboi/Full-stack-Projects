@@ -92,6 +92,7 @@ function HomeComponent() {
                 placeholder="Enter a code"
                 value={meetingCode}
                 onChange={(e) => setMeetingCode(e.target.value)}
+                maxLength={19}
               />
               <Button
                 variant="outlined"

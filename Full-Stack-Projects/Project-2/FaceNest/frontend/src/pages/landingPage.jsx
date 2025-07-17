@@ -17,7 +17,7 @@ export default function LandingPage() {
       <nav>
         <h2>FaceNest</h2>
         <div className="navlist">
-          <button onClick={() => navigate(`/meet/${Code}`)}>Join as Guest</button>
+          {/* <button onClick={() => navigate(`/meet/${Code}`)}>Join as Guest</button> */}
 
           {!isLoggedIn ? (
             <>

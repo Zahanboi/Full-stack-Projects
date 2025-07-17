@@ -67,7 +67,7 @@ const getUserHistory = async (req, res) => {
 
     try {
         const user = await User.findOne({ token: token });
-        const meetings = await Meeting.find({ user_id: user.username })
+        const meetings = await Meeting.find({ user_id: user.userName })
         res.json(meetings)
     } catch (e) {
         res.json({ message: `Something went wrong ${e}` })
@@ -81,7 +81,7 @@ const addToHistory = async (req, res) => {
         const user = await User.findOne({ token: token });
 
         const newMeeting = new Meeting({
-            user_id: user.username,
+            user_id: user.userName,
             meetingCode: meeting_code
         })
 
@@ -93,5 +93,37 @@ const addToHistory = async (req, res) => {
     }
 }
 
+const validateMeet = async (req, res) => {
+    try {
+        const { url } = req.params;
+        const { token } = req.query;
+        const user = await User.findOne({ token: token });
+        if (!user) return res.status(401).json({ message: "Invalid token" });
 
-export { login, register, getUserHistory, addToHistory }
+        const allowedCodes = await Meeting.find({
+            meetingCode: url
+        });
+        let allMeetingCodes = [];
+        // console.log(allowedCodes.length);
+        
+        for (let i = 0; i < allowedCodes.length; i++) {
+            allMeetingCodes.push(allowedCodes[i].meetingCode)
+        }
+        // console.log(allMeetingCodes)
+
+        if (allMeetingCodes.includes(url)) {
+            return res.json({ valid: true });
+        } else {
+            return res.json({ valid: false });
+        }
+            } catch (error) {
+                console.log(error)
+            }
+//   console.log(req.query.token)
+//   console.log(req.params.url);
+  
+};
+
+
+
+export { login, register, getUserHistory, addToHistory, validateMeet }
