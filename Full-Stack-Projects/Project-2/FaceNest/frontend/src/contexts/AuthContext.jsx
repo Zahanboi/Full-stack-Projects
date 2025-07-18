@@ -2,12 +2,12 @@ import axios from "axios";
 import httpStatus from "http-status";
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import server from "../environment";
+import.meta.env.VITE_BACKEND_URL
 
 
 export const AuthContext = createContext({});
 
-let server = "http://localhost:8003"
+let server = import.meta.env.VITE_BACKEND_URL;
 
 
 const client = axios.create({

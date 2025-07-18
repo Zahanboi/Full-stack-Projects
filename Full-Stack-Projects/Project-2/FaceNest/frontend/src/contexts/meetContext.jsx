@@ -2,6 +2,7 @@ import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import VideoMeetComponent from "../pages/VideoMeet"; 
+import.meta.env.VITE_BACKEND_URL
 
 export default function MeetGuardedRoute() {
   const { url } = useParams();
@@ -10,7 +11,7 @@ export default function MeetGuardedRoute() {
   useEffect(() => {
     async function checkRoom() {
       try {
-        const res = await axios.get(`http://localhost:8003/api/v1/users/${url}`, {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/${url}`, {
                 params: {
                     token: localStorage.getItem("token")
                 }

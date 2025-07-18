@@ -16,8 +16,9 @@ import { Box, Typography, Paper } from '@mui/material';
 import io from "socket.io-client";
 import styles from "../styles/video.module.css"// using .module will help in not bypassin the design as classname will ne styles.classname so classname will be specified to that file name
 import authCheck from '../utils/authCheck';
+import.meta.env.VITE_BACKEND_URL
 
-const server_url = "http://localhost:8003";
+const server_url = import.meta.env.VITE_BACKEND_URL;
 
 var connections = {};//can also define inside export also using useref so can implement with connections.current
 

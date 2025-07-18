@@ -8,7 +8,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { AuthContext } from '../contexts/AuthContext';
 import authCheck from '../utils/authCheck';
 import { generateMeetingCode } from "../utils/meetingCode";
-
+import.meta.env.VITE_FRONTEND_URL
 import '../styles/HomePage.css';
 
 function HomeComponent() {
@@ -18,7 +18,7 @@ function HomeComponent() {
   const [meetingCode, setMeetingCode] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const SERVER_URL = "http://localhost:5173";
+  const SERVER_URL = import.meta.env.VITE_FRONTEND_URL;
 
   const generateCode = async () => {
     

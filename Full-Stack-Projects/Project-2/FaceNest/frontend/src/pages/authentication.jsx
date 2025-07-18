@@ -15,8 +15,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AuthContext } from '../contexts/AuthContext';
 import { Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import { faker } from '@faker-js/faker';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -28,6 +31,7 @@ export default function Authentication() {
     const [password, setPassword] = React.useState();
     const [name, setName] = React.useState();
     const [error, setError] = React.useState();
+    const [showPassword, setShowPassword] = React.useState(false);
     const [message, setMessage] = React.useState();
     let navigate = useNavigate();
 
@@ -77,7 +81,7 @@ export default function Authentication() {
                     item
                     md={7}
                     sx={{
-                       backgroundImage: 'url(https://picsum.photos/800/600)',
+                       backgroundImage: `url(${faker.image.urlPicsumPhotos()})`,
                        width: '50%',
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
@@ -140,6 +144,7 @@ export default function Authentication() {
                                 value={name}
                                 autoFocus
                                 onChange={(e) => setName(e.target.value)}
+                                slotProps={{ htmlInput: { maxLength: 20 } }}
                             /> : <></>}
 
                             <TextField
@@ -152,21 +157,33 @@ export default function Authentication() {
                                 value={username}
                                 autoFocus
                                 onChange={(e) => setUsername(e.target.value)}
+                                slotProps={{ htmlInput: { maxLength: 20 } }}
 
                             />
-                            <TextField
+                         <TextField
                                 margin="normal"
                                 required
                                 fullWidth
                                 name="password"
                                 label="Password"
+                                type={showPassword ? "text" : "password"}
                                 value={password}
-                                type="password"
                                 onChange={(e) => setPassword(e.target.value)}
-
                                 id="password"
-                            />
-
+                                slotProps={{ htmlInput: { maxLength: 20 } }}
+                                InputProps={{
+                                    endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        edge="end"
+                                        >
+                                        {showPassword ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                    ),
+                                }}
+                        />
                             <p style={{ color: "red" }}>{error}</p>
 
                             <Button
