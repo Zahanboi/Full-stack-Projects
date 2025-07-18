@@ -17,7 +17,7 @@ export const connectSocket = (server) => {
     io.on("connection" , (socket) => {
     console.log("New client connected: " + socket.id);
     
-    socket.on("join-call", (path) => {
+    socket.on("join-call", (path, sender) => {
         if (connections[path] === undefined) {
             connections[path] = [];
         }
@@ -28,7 +28,7 @@ export const connectSocket = (server) => {
         timeOnline[socket.id] = new Date();
 
         connections[path].forEach(elem => {
-            io.to(elem).emit("user-joined", socket.id , connections[path]); // here we need to run a loop through a array containing socket ids but can use socket.join to avoid loop method
+            io.to(elem).emit("user-joined", socket.id , connections[path], sender); // here we need to run a loop through a array containing socket ids but can use socket.join to avoid loop method
         }); 
 
         
@@ -67,7 +67,7 @@ export const connectSocket = (server) => {
                      "socket-id-sender": socket.id 
                     })
 
-                console.log("message", matchingRoom, ":", sender, data)
+                // console.log("message", matchingRoom, ":", sender, data)
 
                 connections[matchingRoom].forEach((elem) => {
                     io.to(elem).emit("chat-message", data, sender, socket.id)

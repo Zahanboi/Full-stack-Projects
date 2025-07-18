@@ -62,7 +62,7 @@ export default function NotFound() {
         The page you're looking for doesn't exist or has been moved. Let's get you back home!
       </p>
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/home")}
         style={buttonStyle}
         onMouseOver={(e) => (e.target.style.backgroundColor = "#4338ca")}
         onMouseOut={(e) => (e.target.style.backgroundColor = "#4f46e5")}

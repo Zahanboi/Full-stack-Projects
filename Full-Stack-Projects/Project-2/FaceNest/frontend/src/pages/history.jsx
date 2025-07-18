@@ -10,8 +10,9 @@ import {
   Divider
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
+import authCheck from '../utils/authCheck';
 
-export default function History() {
+ function History() {
   const { getHistoryOfUser } = useContext(AuthContext);
   const [meetings, setMeetings] = useState([]);
   const routeTo = useNavigate();
@@ -122,3 +123,5 @@ export default function History() {
     </Box>
   );
 }
+
+export default authCheck(History)

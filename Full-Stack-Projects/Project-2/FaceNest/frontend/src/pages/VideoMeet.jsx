@@ -15,6 +15,7 @@ import ChatIcon from '@mui/icons-material/Chat'
 import { Box, Typography, Paper } from '@mui/material';
 import io from "socket.io-client";
 import styles from "../styles/video.module.css"// using .module will help in not bypassin the design as classname will ne styles.classname so classname will be specified to that file name
+import authCheck from '../utils/authCheck';
 
 const server_url = "http://localhost:8003";
 
@@ -26,7 +27,7 @@ const peerConfigConnections = {
     ]
 }
 
-export default function VideoMeet() {
+ function VideoMeet() {
  
     var socketRef = useRef();//for chat get id
     let socketIdRef = useRef();
@@ -54,8 +55,6 @@ export default function VideoMeet() {
     let[newMessages, setNewMessages] = useState(0);//popups
 
     let[askForUsername, setAskForUsername] = useState(true);//if someone logs in as guest
-
-    let peopleNamesRef = useRef([]);
 
     let [pinnedVideoId, setPinnedVideoId] = useState(null);
 
@@ -306,13 +305,13 @@ export default function VideoMeet() {
 
     let addMessage = (data, sender, socketIdSender) => {
 
-        setMessages((prevMessages) => [// idea can create another usestate for this to display a newly joined user old messages in a separate window
+        setMessages((prevMessages) => [// idea can create another usestate for this to display a newly joined user old messages in a separate window because here new messages are beng created by assigining all sender and data when server emits it with data sender and socketid (check backend i am only emiting new messages not all)
             ...prevMessages,
             {sender: sender, data: data}
         ])
 
         if (socketIdSender !== socketIdRef.current) {
-            setNewMessages((prevMessages) => prevMessages+1)
+            setNewMessages((prevMessages) => prevMessages+1)//to show count
         }
 
     }
@@ -324,7 +323,7 @@ export default function VideoMeet() {
         socketRef.current.on('signal', gotMessageFromServer);
 
         socketRef.current.on('connect', () => {
-            socketRef.current.emit('join-call', window.location.href)
+            socketRef.current.emit('join-call', window.location.href, username)//emit username to server from here
             socketIdRef.current = socketRef.current.id
 
             socketRef.current.on('chat-message', addMessage)
@@ -333,7 +332,7 @@ export default function VideoMeet() {
                 setVideos((videos) => videos.filter((video) => video.socketId !== id)); //remove that video which id is == id
             })
 
-            socketRef.current.on('user-joined', (id, clients) => {
+            socketRef.current.on('user-joined', (id, clients, joineename) => {//receive username here via.on from server
                 clients.forEach((socketListId) => {
                     connections[socketListId] = new RTCPeerConnection(peerConfigConnections) //ice fullform, set up rtc connection
 
@@ -349,7 +348,7 @@ export default function VideoMeet() {
                         if (videoExists) {
                             setVideos(videos => {
                                 const updateVideos = videos.map(video => 
-                                    video.socketId === socketListId ? {...video, stream: event.stream} : video //give entire stream or just video if new user joins then add new stream or event stream but if another user then socketlistid wala then just give old video 
+                                    video.socketId === socketListId ? {...video, stream: event.stream, name:joineename} : video //give entire stream or just video if new user joins then add new stream or event stream but if another user then socketlistid wala then just give old video 
                                 )
                                 videoRef.current = updateVideos;
                                 return updateVideos;
@@ -358,7 +357,7 @@ export default function VideoMeet() {
 
                             let newVideo = {
                                 socketId: socketListId,
-                                name: peopleNamesRef.current,
+                                name: joineename,
                                 stream: event.stream,
                                 autoplay: true,
                                 playsinline: true
@@ -432,7 +431,7 @@ export default function VideoMeet() {
             let tracks = localVideoref.current.srcObject.getTracks()
             tracks.forEach(track => track.stop())
         } catch (e) { }
-        window.location.href = "/"
+        window.location.href = "/home"
     }
 
     let sendMessage = () => {
@@ -497,15 +496,15 @@ export default function VideoMeet() {
                     value={username}
                     onChange={(e) => {
                         setUsername(e.target.value)
-                        peopleNamesRef.current.push(e.target.value);
                     }}
                     sx={{ mb: 2 }}
+                    slotProps={{ htmlInput: { maxLength: 16 , minLength: 3 } }}
                     />
 
                     <Button
                     variant="contained"
                     onClick={connect}
-                    disabled={!username.trim()}
+                    disabled={!username.trim() || (username.length < 3)}
                     fullWidth
                     sx={{
                         mb: 3,
@@ -514,6 +513,7 @@ export default function VideoMeet() {
                         '&:hover': { backgroundColor: '#115293' },
                     }}
                     >
+
                     Connect
                     </Button>
 
@@ -541,13 +541,19 @@ export default function VideoMeet() {
       {showModal && (
         <div className={styles.chatRoom}>
           <div className={styles.chatContainer}>
-            <h2>Chat</h2>
+            <div className={styles.chattoggle}>
+                 <h2>Chat</h2>
+                 <button onClick={handleShowMessages} >&#x2717;</button>
+            </div>
+           
             <div className={styles.chattingDisplay}>
               {messages.length ? (
                 messages.map((item, index) => (
                   <div key={index} style={{ marginBottom: 12 }}>
+                    <hr />
                     <p style={{ fontWeight: "bold" }}>{item.sender}</p>
                     <p>{item.data}</p>
+                   
                   </div>
                 ))
               ) : (
@@ -561,12 +567,15 @@ export default function VideoMeet() {
                 label="Enter your message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                slotProps={{ htmlInput: { maxLength: 100 } }}
               />
               <Button
-                style={{ marginTop: 10 }}
+                style={{ margin: 5, width: "1rem" }}
                 fullWidth
+                disabled={!message.trim() || (username.length < 1)}
                 variant="contained"
                 onClick={sendMessage}
+
               >
                 Send
               </Button>
@@ -617,8 +626,9 @@ export default function VideoMeet() {
             }`}
             onClick={() => handlePinToggle(video.socketId)}
           >
-            <h4 style={{ color: "#fff" }}>{video.name}</h4>
-            {console.log(peopleNamesRef)}
+            {/* <h4 style={{ color: "#fff" }}>{video.name}</h4> */}
+            <p>Pin/Unpin Video &#9882;</p>
+            
             <video
               data-socket={video.socketId}
               ref={(ref) => {
@@ -626,6 +636,8 @@ export default function VideoMeet() {
               }}
               autoPlay
             ></video>
+
+            {/* <h3>{video.name}</h3> */}
           </div>
         ))}
       </div>
@@ -636,3 +648,5 @@ export default function VideoMeet() {
     
   )
 }
+
+export default authCheck(VideoMeet);

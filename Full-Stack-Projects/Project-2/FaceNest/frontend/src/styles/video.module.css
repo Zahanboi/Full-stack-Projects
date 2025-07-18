@@ -3,18 +3,18 @@
   display: flex;
   flex-direction: row;
   height: 100vh;
-  background: linear-gradient(135deg, #030b17, #051d3b);
+  background: linear-gradient(135deg, #131313, #2a2828);
   position: relative;
   overflow: hidden;
 }
 
 /* Grid layout for video streams */
 .conferenceView {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-auto-rows: 180px;
-  gap: 16px;
+  width: 90rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   padding: 16px;
   position: relative;
   overflow-y: auto;
@@ -22,29 +22,68 @@
 
 /* Individual video tile */
 .videoTile {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
+  height: 20rem;
+  width: 32rem;
+  border-radius: 19px;
   cursor: pointer;
-  background: #000;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .videoTile video {
-  width: 100%;
-  height: 100%;
+  width: 32rem;
+  height: 20rem;
+  background: url("/meetbgg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   object-fit: cover;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.videoTile:hover {
+.videoTile p{
+    /* opacity: 0; */
+    /* background-color: #3a3a3a; */
+    text-align: center;
+    font-size: large;
+    font-weight: 700;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    position: relative;
+    color: #ccc;
+    top: 50%;
+}
+
+.videoTile p:hover{
+    z-index: 40;
+    opacity: 1;
+}
+
+.videoTile video:hover {
   transform: scale(1.03);
+  opacity: 0.25;
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
+@media (max-width: 700px){
+.videoTile {
+  width: 24rem;
+  height: 20rem;
 
+    }
+.videoTile video {
+  width: 24rem;
+  height: 20rem;
+}
+}
+
+@media (max-width: 400px){
+.videoTile {
+  width: 18rem;
+  height: 20rem;
+  margin-bottom: 10px;
+    }
+.videoTile video {
+  width: 18rem;
+  height: 20rem;
+}
+}
 .videoNameTag {
   color: #fff;
   font-size: 0.9rem;
@@ -59,19 +98,62 @@
 .pinnedVideo {
   position: absolute;
   top: 0;
-  left: 0;
-  width: calc(100% - 320px);
-  height: 100%;
+  left: 20%;
+  height: 80%;
+  width: 70%;
+  margin-top: 2rem;
   z-index: 1;
-  border: 4px solid #FFD700;
-  box-shadow: 0 0 24px rgba(255, 215, 0, 0.75);
+  box-shadow: 0 0 24px rgba(160, 153, 108, 0.75);
   background: #000;
 }
 
-.pinnedVideo video {
+.pinnedVideo video {  
+  position: absolute;
+  top: 0;
+  border: 4px solid #8f8967;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+@media (max-width: 500px){
+.pinnedVideo {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  height: 60%;
+  width: 90%;
+  margin-top: 2rem;
+  z-index: 1;
+}
+
+.pinnedVideo video {  
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+}
+
+@media (max-width: 900px){
+.pinnedVideo {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  height: 60%;
+  width: 80%;
+  
+  z-index: 1;
+}
+
+.pinnedVideo video {  
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 }
 
 /* Local preview video */
@@ -102,9 +184,9 @@
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.6);
   border-radius: 50px;
-  padding: 12px 24px;
+  padding: 10px 14px;
   display: flex;
-  gap: 24px;
+  gap: 14px;
   align-items: center;
   z-index: 4;
 }
@@ -116,14 +198,16 @@
 
 /* Chat sidebar */
 .chatRoom {
-  width: 320px;
-  height: 100%;
+  width: 20rem;
+  height: 95%;
+  margin-top: 1rem;
   background: #f9f9f9;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
-  flex-direction: column;
-  position: relative;
-  z-index: 2;
+  flex-direction: column-reverse;
+  position: absolute;
+  right: 0;
+  z-index: 6;
 }
 
 .chatContainer {
@@ -160,7 +244,7 @@
 
 .chattingArea {
   display: flex;
-  gap: 10px;
+  gap: 1.1rem;
   padding: 10px;
   background: #e1e5ea;
   border-top: 1px solid #ccc;
@@ -177,6 +261,18 @@
   text-transform: none;
   background-color: #3f51b5;
   color: white;
+}
+
+.chattoggle{
+    display: flex;
+    justify-content: space-between;
+}
+
+.chattoggle button{
+   background-color: #000;
+   font-size: 0.8rem;
+   margin-bottom: 1rem;
+   padding: 0.3rem 1.2rem;
 }
 
 /* Scrollbar for chat */

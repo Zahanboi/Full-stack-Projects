@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AuthContext } from '../contexts/AuthContext';
 import { Snackbar } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -28,6 +29,7 @@ export default function Authentication() {
     const [name, setName] = React.useState();
     const [error, setError] = React.useState();
     const [message, setMessage] = React.useState();
+    let navigate = useNavigate();
 
 
     const [formState, setFormState] = React.useState(0);
@@ -73,8 +75,6 @@ export default function Authentication() {
                 <CssBaseline />
                 <Grid
                     item
-                    xs={false}
-                    sm={4}
                     md={7}
                     sx={{
                        backgroundImage: 'url(https://picsum.photos/800/600)',
@@ -84,12 +84,26 @@ export default function Authentication() {
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                    
+                        display: {
+                        xs: 'none',  // Hide below 600px
+                        sm: 'block',  // Still hidden at sm (600px)
+                        md: 'block'  // Show from md (900px) and up
+    }
                     }}
+                    
+                    
                 />
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} sx={{
-                    width: '50%'
+                    
+                width: {
+                xs: '100%',  // Hide below 600px
+                sm: '50%',  // Still hidden at sm (600px)
+                md: '50%'  // Show from md (900px) and up
+                }
                 }} square>
+                    <Button onClick={() => {
+                    navigate("/");
+                    }}>&larr; &nbsp; <strong>Back</strong></Button>
                     <Box
                         sx={{
                             my: 8,

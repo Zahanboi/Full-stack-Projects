@@ -21,9 +21,11 @@ function HomeComponent() {
   const SERVER_URL = "http://localhost:5173";
 
   const generateCode = async () => {
+    
     const Code = generateMeetingCode();
+    let res = await addToUserHistory(Code);//keep this to make sure first code saves and then generated for user otherwise can cause error if try to join fast before saving (not keeping in try and catch then this trick wont work await is trated by try and rest code is executed as it is not in order)
     setMeetingCode(Code);
-    await addToUserHistory(Code);
+    console.log(res.status);
   };
 
   const handleJoinVideoCall = () => {

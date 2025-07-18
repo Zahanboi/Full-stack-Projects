@@ -54,7 +54,10 @@ export const AuthProvider = ({ children }) => {
 
             if (request.status === httpStatus.OK) {
                 localStorage.setItem("token", request.data.token); // did not understood
-                router("/home")
+                const redirectPath = localStorage.getItem("redirectUrl") || "/";
+                localStorage.removeItem("redirectUrl");
+                router(redirectPath);
+
             }
         } catch (err) {
             throw err;
