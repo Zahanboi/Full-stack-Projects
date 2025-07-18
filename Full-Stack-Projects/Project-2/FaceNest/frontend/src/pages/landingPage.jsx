@@ -1,12 +1,11 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../App.css';
-import { generateMeetingCode } from "../utils/meetingCode"
+
 
 export default function LandingPage() {
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem("token");
-  let Code = generateMeetingCode();
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");

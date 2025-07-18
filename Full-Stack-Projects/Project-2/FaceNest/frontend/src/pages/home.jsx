@@ -34,7 +34,7 @@ function HomeComponent() {
   };
 
   const copyToClipboard = () => {
-    const fullUrl = `${SERVER_URL}/meet/${meetingCode}`;
+    const fullUrl = `${meetingCode}`;
     navigator.clipboard.writeText(fullUrl).then(() => {
       setSnackbarOpen(true);
     });
@@ -109,7 +109,7 @@ function HomeComponent() {
           {meetingCode && (
             <div className="home-meet__link">
               <span>
-                Meeting Link: <strong>{`${SERVER_URL}/meet/${meetingCode}`}</strong>
+                Meeting Code: <strong>{`${meetingCode}`}</strong>
               </span>
               <IconButton onClick={copyToClipboard} title="Copy to clipboard">
                 <ContentCopyIcon />
@@ -131,7 +131,7 @@ function HomeComponent() {
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        message="Meeting link copied to clipboard!"
+        message="Meeting Code copied to clipboard!"
         action={
           <IconButton size="small" color="inherit" onClick={handleCloseSnackbar}>
             <CloseIcon fontSize="small" />
