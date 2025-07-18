@@ -16,6 +16,7 @@ import { Box, Typography, Paper } from '@mui/material';
 import io from "socket.io-client";
 import styles from "../styles/video.module.css"// using .module will help in not bypassin the design as classname will ne styles.classname so classname will be specified to that file name
 import authCheck from '../utils/authCheck';
+import { useNavigate } from 'react-router-dom';
 import.meta.env.VITE_BACKEND_URL
 
 const server_url = import.meta.env.VITE_BACKEND_URL;
@@ -62,6 +63,8 @@ const peerConfigConnections = {
     let[username, setUsername] = useState("")
 
     const videoRef = useRef([]);
+
+    let routeTo = useNavigate();
 
     let [videos, setVideos] = useState([]); //multiple videos k liye
 
@@ -432,7 +435,7 @@ const peerConfigConnections = {
             let tracks = localVideoref.current.srcObject.getTracks()
             tracks.forEach(track => track.stop())
         } catch (e) { }
-        window.location.href = "/home"
+        routeTo("/home")
     }
 
     let sendMessage = () => {
