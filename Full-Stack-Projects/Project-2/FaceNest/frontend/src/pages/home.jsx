@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -34,7 +34,7 @@ function HomeComponent() {
   };
 
   const copyToClipboard = () => {
-    const fullUrl = `${meetingCode}`;
+    const fullUrl = `${SERVER_URL}/meet/${meetingCode}`;
     navigator.clipboard.writeText(fullUrl).then(() => {
       setSnackbarOpen(true);
     });
@@ -109,7 +109,7 @@ function HomeComponent() {
           {meetingCode && (
             <div className="home-meet__link">
               <span>
-                Meeting Code: <strong>{`${meetingCode}`}</strong>
+                Meeting Link: <strong>{`${SERVER_URL}/meet/${meetingCode}`}</strong>
               </span>
               <IconButton onClick={copyToClipboard} title="Copy to clipboard">
                 <ContentCopyIcon />
@@ -131,7 +131,7 @@ function HomeComponent() {
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        message="Meeting Code copied to clipboard!"
+        message="Meeting Link copied to clipboard!"
         action={
           <IconButton size="small" color="inherit" onClick={handleCloseSnackbar}>
             <CloseIcon fontSize="small" />
