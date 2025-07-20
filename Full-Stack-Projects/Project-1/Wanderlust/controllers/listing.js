@@ -20,7 +20,7 @@ module.exports.getListing = async (req,res) => {
       path: "author", //rattlio this is nested populating
     }, 
   }).populate("owner"); 
-  if(!listings) {
+  if(!listings || id.length !== 24) {
     req.flash("error", "Listing does not exist!");
     return res.redirect("/listings"); //use return otherwise it will continue to execute the next line
   }
