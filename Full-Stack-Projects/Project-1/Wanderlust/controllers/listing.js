@@ -14,13 +14,19 @@ module.exports.newListing = (req ,res) => {
 
 module.exports.getListing = async (req,res) => {
   let {id} = req.params;
+  if(id.length !== 24) {
+    req.flash("error", "Listing does not exist!");
+    return res.redirect("/listings"); //use return otherwise it will continue to execute the next line
+  }
+   
   const listings = await Listing.findById(id).populate( { 
     path: "reviews",
     populate: { 
       path: "author", //rattlio this is nested populating
     }, 
   }).populate("owner"); 
-  if(!listings || id.length !== 24) {
+  
+  if(!listings) {
     req.flash("error", "Listing does not exist!");
     return res.redirect("/listings"); //use return otherwise it will continue to execute the next line
   }
