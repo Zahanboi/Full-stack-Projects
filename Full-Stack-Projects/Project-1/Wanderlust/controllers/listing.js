@@ -15,7 +15,7 @@ module.exports.newListing = (req ,res) => {
 module.exports.getListing = async (req,res) => {
   let {id} = req.params;
   if(id.length !== 24) {
-    req.flash("error", "Listing does not exist!");
+    req.flash("error", "Page not found!");
     return res.redirect("/listings"); //use return otherwise it will continue to execute the next line
   }
    
