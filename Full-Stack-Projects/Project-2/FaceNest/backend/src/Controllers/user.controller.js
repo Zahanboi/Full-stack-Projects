@@ -80,6 +80,10 @@ const addToHistory = async (req, res) => {
     try {
         const user = await User.findOne({ token: token });
 
+        if (!user) {
+            return res.status(httpStatus.NOT_FOUND).json({message: "User not found"});
+        }
+        
         const newMeeting = new Meeting({
             user_id: user.userName,
             meetingCode: meeting_code
