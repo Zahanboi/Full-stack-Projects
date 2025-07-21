@@ -13,7 +13,8 @@ module.exports.newListing = (req ,res) => {
 }
 
 module.exports.getListing = async (req,res) => {
-  let {id} = req.params;
+  try {
+    let {id} = req.params;
   if(id.length !== 24) {
     req.flash("error", "Page not found!");
     return res.redirect("/listings"); //use return otherwise it will continue to execute the next line
@@ -31,6 +32,11 @@ module.exports.getListing = async (req,res) => {
     return res.redirect("/listings"); //use return otherwise it will continue to execute the next line
   }
   res.render("show.ejs" , {listings} );
+  } catch (error) {
+      req.flash("error", "Listing does not exist!");
+    return res.redirect("/listings");
+  }
+  
 }
 module.exports.createListing = async (req, res) => {
   const location = req.body.listing.location;
