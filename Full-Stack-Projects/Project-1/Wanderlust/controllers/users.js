@@ -39,7 +39,7 @@ module.exports.loginUser = async (req, res) => {
 
 module.exports.logoutUser = (req, res) => {
     if (req.user) {
-        req.logout((err) => {
+        req.logout((err) => {//req.logout is a passport method to log out the user, it will remove the user from the session
         if(err){
             return next(err);
         }
