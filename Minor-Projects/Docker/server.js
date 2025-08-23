@@ -28,7 +28,7 @@ async function main(){
     }
 }
 
-const User = mongoose.model('User', new mongoose.Schema({} , {strict: false }), 'sample_db' ); // strict: false allows for flexible scheme and you need to set the username as admin for the databse "users" of this collection to make this work other wise it will create a collection in the database with the name 'sample_db' in db where the specified username  is admin
+const User = mongoose.model('User', new mongoose.Schema({} , {strict: false }), 'details' ); // strict: false allows for flexible scheme and you need to set the username as admin for the databse "users" of this collection to make this work other wise it will create a collection in the test database with the name 'details' in db where the specified username  is admin
 
 app.get("/", (req, res) => {
     // res.json({ message: "Hello, World!" })
