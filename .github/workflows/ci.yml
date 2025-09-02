@@ -59,10 +59,11 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
 
-    - name: Enable corepack (to use pnpm)
-      run: corepack enable
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 9  # specify pnpm version you use
 
     - name: Install dependencies
       working-directory: Minor-Projects/CI&CD
@@ -75,4 +76,6 @@ jobs:
     - name: Run tests
       working-directory: Minor-Projects/CI&CD
       run: pnpm test
+
+
 
