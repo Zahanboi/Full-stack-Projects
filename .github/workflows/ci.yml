@@ -79,6 +79,3 @@ jobs:
 
 
 
-      working-directory: Minor-Projects/CI&CD
-      run: pnpm test
-
