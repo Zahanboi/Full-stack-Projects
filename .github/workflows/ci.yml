@@ -38,6 +38,11 @@ on:
     branches: [ "main" ]
     paths:
       - 'Minor-Projects/CI&CD/**'
+      #to only run the workflow when detect change in ci and cd
+  # pull_request:
+  #   branches: [ "main" ]
+  #   paths:
+  #     - 'Full-Stack-Projects/Minor-Projects/CI&CD/**'
 
 jobs:
   build:
@@ -71,6 +76,8 @@ jobs:
     - name: Run tests
       working-directory: Minor-Projects/CI&CD
       run: pnpm test
+
+
 
       working-directory: Minor-Projects/CI&CD
       run: pnpm test
