@@ -14,7 +14,3 @@ app.get('/sum/:a/:b', async(req,res) => {
     const {a,b} = req.params; //parseInt bcoz query se string m hoga toh convert it into int
     res.json({ ans: sum(parseInt(a) , parseInt(b)) });
 });
-
-app.get('/about', (req,res)=>{
-    res.json({ message: "About Us" });
-});
