@@ -37,7 +37,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'Full-Stack-Projects/Minor-Projects/CI&CD/**'
+      - 'Minor-Projects/CI&CD/**'
       #to only run the workflow when detect change in ci and cd
   # pull_request:
   #   branches: [ "main" ]
@@ -65,14 +65,14 @@ jobs:
       run: corepack enable
 
     - name: Install dependencies
-      working-directory: Full-Stack-Projects/Minor-Projects/CI&CD
+      working-directory: Minor-Projects/CI&CD
       run: pnpm install --frozen-lockfile
 
     - name: Build (if present)
-      working-directory: Full-Stack-Projects/Minor-Projects/CI&CD
+      working-directory: Minor-Projects/CI&CD
       run: pnpm run build --if-present
 
     - name: Run tests
-      working-directory: Full-Stack-Projects/Minor-Projects/CI&CD
+      working-directory: Minor-Projects/CI&CD
       run: pnpm test
 
