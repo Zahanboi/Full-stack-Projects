@@ -1,6 +1,7 @@
 name: CI/CD with self-hosted
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
     paths:
