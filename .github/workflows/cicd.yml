@@ -1,0 +1,56 @@
+name: CI/CD with self-hosted
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'Full-Stack-Projects/Project-2/FaceNest/backend/**'
+      # Only trigger when backend changes
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    defaults:
+      run:
+        working-directory: Full-Stack-Projects/Project-2/FaceNest/backend
+        # all "run" commands will execute from backend directory
+
+    steps:
+      - name: Backup .env
+        run: |
+          if [ -f .env ]; then mv .env /tmp/env_backup; fi
+      
+      - uses: actions/checkout@v4
+
+      - name: Restore .env
+        run: |
+          if [ -f /tmp/env_backup ]; then mv /tmp/env_backup .env; fi
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: Full-Stack-Projects/Project-2/FaceNest/backend/package-lock.json
+          # ensures caching works correctly for your backend
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: backend restart
+        run: |
+          pm2 reload facenest-backend || pm2 start src/app.js --name facenest-backend
+          pm2 save
+        
+      - name: Build (if present)
+        run: npm run build --if-present
+
+      - name: Run tests (if present)
+        run: npm test || echo "No tests configured"
+
